@@ -3,7 +3,7 @@
 *
 * OBJECTIVE:
 * Construct a clean, consistent, and economically meaningful consumption dataset
-* for VAT incidence analysis based on EHCVM data.
+* for VAT incidence analysis based on EHCVM (Harmonised survey on household living conditions) data.
 *
 * DATA STRUCTURE:
 * - Unit of observation: (household × product × acquisition method)
@@ -19,10 +19,14 @@
 * METHODOLOGICAL APPROACH:
 *
 * 1. Data validation and cleaning
-*    - Inspect distribution of expenditures (heavy-tailed by nature)
+*   - Inspect distribution of expenditures (heavy-tailed by nature)
 *
 * 2. Restriction to relevant consumption
-*    - Keep only items included in the official consumption aggregate (inclus == 1)
+*    - Keep only items included in the official consumption aggregate (inclus == 1). 	
+*Final household consumption is approximated using items included in the official
+*consumption aggregate (inclus == 1), which corrects for measurement issues
+*present in raw survey data.
+
 *    - Restrict to market-based transactions (modep == 1)
 *
 *     This ensures consistency with national accounts and VAT applicability
@@ -35,7 +39,7 @@
 *    - Aggregate expenditures from item-level to household-level
 *    - Compute:
 *         • total consumption (conso)
-*         • winsorized consumption (conso_w)
+*         • total winsorized consumption (conso_w)
 *         • number of items (n_items)
 *
 *    - Household characteristics (hhweight, region, milieu) are merged separately
@@ -62,13 +66,11 @@
 *
 ********************************************************************************
 
-
 di as text ">>> STEP 1: Loading raw consumption data"
-
 use "$DATA/ehcvm_conso_civ2021.dta", clear
 
 ********************************************************************************
-* STEP 2 — Inspect dataset structure
+* STEP 1 — Inspect dataset structure
 ********************************************************************************
 
 di as text ">>> Inspecting dataset structure"
@@ -81,7 +83,7 @@ assert !missing(hhid)
 assert !missing(codpr)
 
 ********************************************************************************
-* STEP 3 — Clean expenditure values
+* STEP 2 — Clean expenditure values
 ********************************************************************************
 
 di as text ">>> Cleaning expenditure values (depan)"
@@ -112,6 +114,7 @@ sum depan, detail
 
 ********************************************************************************
 * STEP 5 — Restrict to market-based consumption
+* tip : Did the household pay for the consumption ?
 ********************************************************************************
 
 di as text ">>> Restricting to market-based consumption (VAT-relevant)"
@@ -120,8 +123,8 @@ di as text ">>> Restricting to market-based consumption (VAT-relevant)"
 * 1 = Purchase (market transaction)
 * 2 = Own-consumption
 * 3 = Gift
-* 4 = Use value (durables)
-* 5 = Imputed rent
+* 4 = Use value (durables) : estimation of the service provided by a durable good over a period (often annual)
+* 5 = Imputed rent : you own your home
 
 * CEQ assumption:
 * VAT applies only to market transactions
@@ -145,9 +148,11 @@ di as text ">>> Diagnostics after filtering"
 count
 sum depan, detail
 
-/*After restricting to market-based consumption and excluding non-relevant items,
-the distribution of expenditures becomes significantly less skewed,
-though it remains right-tailed as expected.*/
+/*The distribution of spending is highly unequal and dominated by a few high values.A "typical" household spends approximately 15,000 FCFA (median) per item (annualized).
+Skewness = 9.39 & Kurtosis = 197 very asymmetrical distribution with a high concentration of low observations and some extremely high values.
+
+Conclusion : The majority of households consume little, while a minority make very high expenditures, reflecting both inequalities in living standards and the presence of significant one-off expenditures.
+*/
 
 * Check COICOP distribution
 tab coicop
@@ -159,13 +164,14 @@ tab region
 * STEP 7 — Handle extreme values (robustness)
 ********************************************************************************
 
-di as text ">>> Handling extreme values (winsorization)"
+di as text ">>> Handling extreme values"
 
 * Motivation:
 * Expenditure distribution is highly skewed (heavy tail),
 * which may bias incidence results
 
 gen log_depan = log(depan)
+histogram depan
 histogram log_depan
 graph save "$FIGS/log_depan_af_cleaning.gph" , replace
 
@@ -258,6 +264,13 @@ di as text ">>> Household-level diagnostics"
 sum conso, detail
 sum conso_w, detail
 sum n_items
+
+/*
+Household-level consumption exhibits moderate right-skewness,
+with a median of approximately 1.35 million FCFA (conso) and a mean of 1.69 million FCFA.
+The upper tail remains present but controlled, with the top 1% reaching 6.6 million FCFA.
+Compared to item-level distributions, aggregation at the household level significantly reduces
+extreme variability, resulting in a more stable and interpretable distribution.*/
 
 count if missing(hhid, conso, conso_w, n_items, hhweight, region, milieu)
 
