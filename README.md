@@ -1,232 +1,248 @@
-# \### MEASURING THE DISTRIBUTIVE IMPACT OF INDIRECT TAXES IN COTE D'IVOIRE
+\# MEASURING THE DISTRIBUTIVE IMPACT OF INDIRECT TAXES IN CÔTE D’IVOIRE
 
-# \---
 
-# 
 
-# \##  Overview
+\---
 
-# 
 
-# This project estimates the \*\*distributional incidence of indirect taxes (VAT)\*\* in Côte d’Ivoire using household consumption data from \*\*EHCVM 2021\*\*.
 
-# 
+\## Overview
 
-# The objective is to identify \*\*who pays VAT\*\*, in absolute and relative terms, and to assess whether the system is \*\*progressive, proportional, or regressive\*\*.
 
-# 
 
-# \---
+This project estimates the \*\*distributional incidence of indirect taxes (VAT)\*\* in Côte d’Ivoire using household consumption data from \*\*EHCVM 2021\*\*.
 
-# 
 
-# \##  Methodology
 
-# 
+The objective is to identify \*\*who pays VAT\*\*, in absolute and relative terms, and to assess whether the system is \*\*progressive, proportional, or regressive\*\*.
 
-# The analysis follows a \*\*CEQ-inspired framework\*\*, adapted to data constraints typical of developing economies.
 
-# 
 
-# \### Core identity:
+\---
 
-# 
 
-# Consumable Income = Total Consumption − Indirect Taxes
 
-# 
+\## Methodology
 
-# \### Key features:
 
-# 
 
-# \- Consumption used as proxy for pre-tax welfare
+The analysis follows a \*\*CEQ-inspired framework\*\*, adapted to data constraints typical of developing economies.
 
-# \- Product-level VAT imputation (codpr → fiscal category)
 
-# \- Household-level aggregation using survey weights
 
-# \- Static \*\*first-order incidence analysis\*\*
+\### Core identity
 
-# 
 
-# \---
 
-# 
+\*\*Consumable Income = Total Consumption − Indirect Taxes\*\*
 
-# \##  Data
 
 
+\### Key features
 
-# \- Source: EHCVM 2021 (Côte d’Ivoire)
 
-# \- Unit of analysis: Household x product
 
-# 
+\- Consumption used as proxy for pre-tax welfare  
 
-# \### Key variables:
+\- Product-level VAT imputation (`codpr → fiscal category`)  
 
-# \- `codpr` → product code
+\- Household-level aggregation using survey weights  
 
-# \- `modep` → acquisition mode
+\- Static \*\*first-order incidence analysis\*\*
 
-# \- `depan` → annual expenditure
 
-# \- `hhweight` → survey weight
 
-# 
+\---
 
-# \---
 
-# 
 
-# \## Scenarios (Informality)
+\## Data
 
-# 
 
-# To account for informality, three scenarios are implemented:
 
-# 
+\- Source: \*\*EHCVM 2021 (Côte d’Ivoire)\*\*  
 
-# \- \*\*Strict (α = 1)\*\*
+\- Unit of analysis: \*\*Household × product\*\*
 
-# &#x20; Full taxation of all eligible consumption (upper bound)
 
-# 
 
-# \- \*\*S2 — CEI × location\*\*
+\### Key variables
 
-# &#x20; α varies by COICOP category and urban/rural status
 
-# 
 
-# \- \*\*S3 — CEI × decile\*\*
+\- `codpr` → product code  
 
-# &#x20; α increases with consumption level (Engel curve of informality)
+\- `modep` → acquisition mode  
 
-# 
+\- `depan` → annual expenditure  
 
-# 
+\- `hhweight` → survey weight  
 
-# \##  Outputs
 
-# 
 
-# \- Effective VAT rates by decile
+\---
 
-# \- Tax burden (absolute and relative)
 
-# \- Concentration curves
 
-# \- Gini and Kakwani indices
+\## Scenarios (Informality)
 
-# \- Robustness analysis
 
-# 
 
-# 
+To account for informality, three scenarios are implemented:
 
-# \## Key Assumptions
 
-# 
 
-# \- \*\*Full pass-through\*\* of VAT to consumer prices
+\- \*\*Strict (α = 1)\*\*  
 
-# \- Consumption as proxy for welfare
+&#x20; Full taxation of all eligible consumption (upper bound)
 
-# \- No indirect effects (input-output, general equilibrium)
 
-# 
 
-# So results should be interpreted as a \*\*first-order approximation\*\*
+\- \*\*S2 — CEI × location\*\*  
 
-# 
+&#x20; α varies by COICOP category and urban/rural status  
 
-# 
 
-# \## Limitations
 
-# 
+\- \*\*S3 — CEI × decile\*\*  
 
-# \- No direct taxes or transfers
+&#x20; α increases with consumption level (Engel curve of informality)
 
-# \- No behavioral responses
 
-# \- No production-side effects
 
-# \- Informality approximated through scenarios
+\---
 
-# 
 
-# \---
 
-# 
+\## Outputs
 
-# \## Research Design
 
-# 
 
-# This project is part of a progressive research agenda :
+\- Effective VAT rates by decile  
 
-# 
+\- Tax burden (absolute and relative)  
 
-# 1\. Estimate VAT incidence from consumption
+\- Concentration curves  
 
-# 2\. Integrate administrative fiscal data
+\- Gini and Kakwani indices  
 
-# 3\. Refine informality modeling
+\- Robustness analysis  
 
-# 4\. Extend toward full CEQ analysis
 
-# 
 
-# 
+\---
 
-# \## References
 
-# 
 
-# \- Bachas, Gadenne \& Jensen (2024) — \*Informality, Consumption Taxes, and Redistribution\*
+\## Key Assumptions
 
-# \- Lustig (2018) — CEQ Handbook
 
-# \- World Bank (2024) — Urban Informality (WPS 10703)
 
-# \- UNECA (2019) — Economic Report on Africa
+\- \*\*Full pass-through\*\* of VAT to consumer prices  
 
-# 
+\- Consumption as proxy for welfare  
 
-# \---
+\- No indirect effects (input-output, general equilibrium)  
 
-# 
 
-# \## Reproducibility
 
+Results should be interpreted as a \*\*first-order approximation\*\*
 
 
 
+\---
 
 
 
-\##  Author
+\## Limitations
 
 
 
-ANStat
+\- No direct taxes or transfers  
 
-Cellule d'Analyses Economiques (CAE)
+\- No behavioral responses  
 
-\*\*Armand Djaha, M.Sc.\*\*
+\- No production-side effects  
 
-Applied Economist | Statistical Analyst
+\- Informality approximated through scenarios  
 
 
 
-Côte d’Ivoire / Canada
+\---
 
-armandjaha@gmail.com
 
-https://www.linkedin.com/in/armand-djaha-m-sc-108119186
+
+\## Research Design
+
+
+
+This project is part of a \*\*progressive research agenda\*\*:
+
+
+
+1\. Estimate VAT incidence from consumption  
+
+2\. Integrate administrative fiscal data  
+
+3\. Refine informality modeling  
+
+4\. Extend toward full CEQ analysis  
+
+
+
+\---
+
+
+
+\## References
+
+
+
+\- Bachas, Gadenne \& Jensen (2024) — \*Informality, Consumption Taxes, and Redistribution\*  
+
+\- Lustig (2018) — CEQ Handbook  
+
+\- World Bank (2024) — Urban Informality (WPS 10703)  
+
+\- UNECA (2019) — Economic Report on Africa  
+
+
+
+\---
+
+
+
+\## Reproducibility
+
+
+
+
+
+
+
+\---
+
+
+
+\## Author
+
+
+
+\*\*Armand Djaha, M.Sc.\*\*  
+
+Applied Economist | Statistical Analyst  
+
+
+
+ANStat — Cellule d’Analyses Économiques (CAE)  
+
+
+
+Côte d’Ivoire / Canada  
+
+armandjaha@gmail.com  
+
+https://www.linkedin.com/in/armand-djaha-m-sc-108119186  
 
 
 
@@ -252,5 +268,7 @@ https://www.linkedin.com/in/armand-djaha-m-sc-108119186
 
 
 
-This project provides a transparent, reproducible and policy-relevant framework to analyze VAT incidence in Côte d’Ivoire, and can be extended to other UEMOA countries using EHCVM data.
+This project provides a \*\*transparent, reproducible and policy-relevant framework\*\* to analyze VAT incidence in Côte d’Ivoire, and can be extended to other UEMOA countries using EHCVM data.
+
+
 
