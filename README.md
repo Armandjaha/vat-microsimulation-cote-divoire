@@ -188,7 +188,6 @@ The repository is structured to ensure full reproducibility:
 
 - All code is written in **Stata** (`.do` files) with inline comments
 - Random seeds are fixed where applicable
-- Raw data paths are parameterized via a `globals.do` master file
 - Results are automatically exported to `/output/`
 
 
@@ -221,4 +220,4 @@ Côte d'Ivoire / Canada
 ![Date](https://img.shields.io/badge/Date-April%202026-lightgrey?style=flat-square)
 ![Institution](https://img.shields.io/badge/Institution-ANStat%20CAE-green?style=flat-square)
 
-> 📌 *Working paper — April 2026 · Final project (ANStat)*
+> 📌 *Working paper % (In progress) April 2026 · Final project (ANStat)*
