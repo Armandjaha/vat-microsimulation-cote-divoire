@@ -2,7 +2,7 @@
 ### CEQ-Based Microsimulation · EHCVM 2021 · Working Paper — April 2026
 
 > **ANStat — Cellule d'Analyses Économiques (CAE)**  
-> Armand Djaha, M.Sc. · Applied Economist
+> Armand Djaha, M.Sc. · Applied Economist | Research
 
 ---
 
