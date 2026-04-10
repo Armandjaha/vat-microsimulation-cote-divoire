@@ -10,6 +10,7 @@
 * - VAT decomposition by COICOP
 * - Regional and rural/urban breakdowns
 * - Diagnostics for data quality
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 use "$OUTPUT/final_data/04/fiscal_data_analysis_ready.dta", clear

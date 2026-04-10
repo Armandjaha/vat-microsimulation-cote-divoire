@@ -11,6 +11,7 @@
 * the correct project paths and prevent path-related errors in the code.
 * This ensures that all relative paths used in the project remain valid and
 * the code does not break across different machines or environments.
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 clear all
 set more off

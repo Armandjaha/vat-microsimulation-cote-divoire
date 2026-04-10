@@ -4,6 +4,7 @@
 * OBJECTIVE:
 * Measure VAT progressivity using concentration-based indicators
 * consistent with CEQ-style distributive analysis.
+**AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 use "$OUTPUT/final_data/04/fiscal_data_analysis_ready.dta", clear

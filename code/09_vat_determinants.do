@@ -73,6 +73,7 @@
 * Robustness: coefficients compared across three dependent variables.
 * If coefficients stable across eff_vat_strict / s2 / s3 → robust.
 * If coefficients change sign → informality assumption matters.
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 use "$OUTPUT/final_data/06/fiscal_sensitivity_taxation.dta", clear

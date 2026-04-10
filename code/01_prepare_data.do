@@ -70,6 +70,7 @@
 *
 * - The final dataset is consistent with a partial CEQ framework focusing on
 *   indirect taxation (VAT incidence).
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 set scheme s1color
 

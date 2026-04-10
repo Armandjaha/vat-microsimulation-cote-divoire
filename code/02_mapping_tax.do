@@ -19,6 +19,7 @@
 * NOTES:
 * - VAT rates are stored as proportions: 0, 0.09, 0.18
 * - manual VAT entered in Excel is assumed to be in percentage points: 0, 9, 18
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 clear all

@@ -27,6 +27,7 @@
 * - eff_vat / eff_vat_w
 * - market_income
 * - consumable_income
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 use "$OUTPUT/final_data/03/fiscal_data.dta", clear

@@ -21,7 +21,9 @@
 *   - hhsize  : household size
 *   - eqadu1  : number of adults 
 *   - eqadu2 : number of adults 
-*
+
+*AUTHOR: Armand Kouakou Djaha, MSc
+
 ********************************************************************************
 
 use "$OUTPUT/final_data/06/fiscal_sensitivity_taxation.dta", clear

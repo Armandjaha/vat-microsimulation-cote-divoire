@@ -87,6 +87,9 @@
 *   - CEQ-style summary indices (Gini, CI, Kakwani, Reynolds-Smolensky)
 *   - Bootstrap confidence intervals on Kakwani
 *   - sensitivity dataset saved for later use
+
+*AUTHOR: Armand Kouakou Djaha, MSc
+
 ********************************************************************************
 
 use "$OUTPUT/final_data/01/conso_clean.dta", clear

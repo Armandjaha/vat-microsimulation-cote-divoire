@@ -9,6 +9,7 @@
 *   3. Apply fiscal mapping
 *   4. Compute taxes and CEQ variables
 *   5. Run analysis and export outputs
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 clear all

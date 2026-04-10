@@ -19,6 +19,7 @@
 *
 * NOTE ON SCHEME:
 * s1color is used for compatibility.
+*AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 set scheme s1color
