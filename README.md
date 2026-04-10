@@ -1,388 +1,211 @@
-\# 📊 MEASURING THE DISTRIBUTIVE IMPACT OF INDIRECT TAXES IN CÔTE D’IVOIRE  
+# 📊 Distributive Impact of Indirect Taxes in Côte d'Ivoire
+### CEQ-Based Microsimulation · EHCVM 2021 · Working Paper — April 2026
 
-\### CEQ-based analysis using EHCVM 2021
+> **ANStat — Cellule d'Analyses Économiques (CAE)**  
+> Armand Djaha, M.Sc. · Applied Economist
 
+---
 
+## 🗂️ Table of Contents
 
-\---
+- [Overview](#overview)
+- [Conceptual Framework](#conceptual-framework)
+- [Methodology](#methodology)
+- [Data](#data)
+- [Informality & Effective Taxation](#informality--effective-taxation)
+- [Outputs](#outputs)
+- [Key Assumptions](#key-assumptions)
+- [Limitations](#limitations)
+- [Repository Structure](#repository-structure)
+- [Reproducibility](#reproducibility)
+- [References](#references)
+- [Author](#author)
 
+---
 
+## Overview
 
-\## Overview
+This project estimates the **distributional incidence of Value Added Tax (VAT)** in Côte d'Ivoire using household-level consumption data from the **EHCVM 2021 survey**.
 
+The core objective is to identify **who effectively bears the burden of VAT** — both in absolute terms and relative to total consumption — and to assess whether the tax system is **progressive, proportional, or regressive** across the welfare distribution.
 
+The analysis is designed as a **first-order fiscal incidence exercise**, providing a transparent and reproducible framework adapted to data-constrained environments typical of Sub-Saharan Africa.
 
-This project estimates the \*\*distributional incidence of indirect taxes (VAT)\*\* in Côte d’Ivoire using detailed household consumption data from the \*\*EHCVM 2021 survey\*\*.
+---
 
+## Conceptual Framework
 
+The analysis follows a **CEQ-inspired (Commitment to Equity)** framework, adapted to the Ivorian context and available data.
 
-The objective is to identify \*\*who effectively bears the burden of VAT\*\*, both in absolute terms and relative to total consumption, and to assess whether the tax system is \*\*progressive, proportional, or regressive\*\* across the distribution of living standards.
+In a standard CEQ setting, multiple income concepts are compared (market income, disposable income, consumable income, final income). Due to data limitations, this project focuses on the transition from **observed consumption** to a **simulated post-tax welfare measure**.
 
+### Core Identity
 
+```
+Consumable Income = Total Consumption − Indirect Taxes (VAT)
+```
 
-The analysis is designed as a \*\*first-order fiscal incidence exercise\*\*, providing a transparent and reproducible framework adapted to data-constrained environments.
+This identity isolates the **direct welfare effect of consumption taxes** at the household level.
 
+---
 
+## Methodology
 
-\---
+The empirical strategy relies on a **bottom-up microsimulation approach** in five steps:
 
+| Step | Description |
+|------|-------------|
+| **1. Consumption Aggregation** | Household-level consumption constructed from product-level expenditures |
+| **2. Tax Mapping** | Each product (`codpr`) assigned a fiscal treatment (exempt / reduced / standard rate) |
+| **3. Tax Imputation** | VAT simulated at product level, then aggregated at household level |
+| **4. Welfare Comparison** | Pre-tax consumption compared to simulated consumable income |
+| **5. Distributional Analysis** | Results analyzed across deciles using ETRs, concentration curves, and progressivity indices |
 
+---
 
-\##  Conceptual Framework
+## Data
 
+| Attribute | Detail |
+|-----------|--------|
+| **Source** | EHCVM 2021 — Côte d'Ivoire |
+| **Unit of observation** | Household × product |
+| **Unit of analysis** | Household |
 
+### Key Variables
 
-The analysis follows a \*\*CEQ-inspired (Commitment to Equity) framework\*\*, adapted to the Ivorian context and available data.
+| Variable | Description |
+|----------|-------------|
+| `codpr` | Product identifier |
+| `modep` | Acquisition mode (market, own production, gift, etc.) |
+| `depan` | Annual expenditure |
+| `hhweight` | Sampling weight |
 
+---
 
+## Informality & Effective Taxation
 
-In a standard CEQ setting, multiple income concepts are compared (market income, disposable income, consumable income, final income). Due to data limitations, this project focuses on the transition from observed consumption to a simulated post-tax measure.
+A key challenge in developing economies is that **not all transactions are effectively taxed**, due to the prevalence of the informal sector.
 
+To address this, the analysis incorporates **heterogeneous effective taxation scenarios** based on the **Informality Engel Curve (IEC)** framework (Bachas, Gadenne & Jensen, 2024).
 
+### Scenario 1 — Strict (α = 1)
+- Full taxation of all eligible consumption
+- Represents a **theoretical upper bound**
+- Baseline for comparison
 
-\### Core identity
+### Scenario 2 — CEI × Location
+- α varies by COICOP category **and** urban/rural location
+- Captures structural differences in market access and formalization
 
+### Scenario 3 — CEI × Decile
+- α increases monotonically with consumption level
+- Reflects that **wealthier households transact more in formal markets**
 
+These scenarios allow robust testing of **how informality shapes distributional outcomes**, beyond aggregate tax levels.
 
-\*\*Consumable Income = Total Consumption − Indirect Taxes\*\*
+---
 
+## Outputs
 
+The project produces the following distributional indicators:
 
-This allows us to isolate the \*\*direct effect of consumption taxes\*\* on household welfare.
+- ✅ Effective VAT rates by decile
+- ✅ Tax burden (absolute and relative to consumption)
+- ✅ Concentration curves (pre- and post-tax)
+- ✅ Gini coefficients (pre- and post-tax)
+- ✅ **Kakwani index** of tax progressivity
+- ✅ Sensitivity and robustness analysis across scenarios
 
+---
 
+## Key Assumptions
 
-\---
+| Assumption | Description |
+|------------|-------------|
+| **Full pass-through** | VAT is fully reflected in consumer prices (no producer absorption) |
+| **Consumption as welfare proxy** | Total household consumption used as proxy for permanent income |
+| **Partial equilibrium** | No indirect effects via production chains or GE adjustments |
 
+> Results should be interpreted as a **first-order approximation** of tax incidence.
 
+---
 
-\##  Methodology
+## Limitations
 
+- ❌ No direct taxes or social transfers modeled
+- ❌ No behavioral responses (price or demand adjustments)
+- ❌ No input-output transmission effects
+- ❌ Informality modeled through scenarios, not directly observed
 
+These limitations are explicitly acknowledged as part of a **transparent and progressive research strategy**.
 
-The empirical strategy relies on a \*\*bottom-up microsimulation approach\*\*:
+---
 
+## Repository Structure
 
+```
+📁 vat-incidence-civ/
+│
+├── 📁 data/
+│   ├── raw/              # EHCVM 2021 raw files (not versioned)
+│   └── processed/        # Cleaned and merged datasets
+│
+├── 📁 code/
+│   ├── 01_cleaning.do        # Data preparation & variable construction
+│   ├── 02_tax_mapping.do     # Product-level fiscal treatment
+│   ├── 03_imputation.do      # VAT microsimulation
+│   ├── 04_distribution.do    # Decile analysis & progressivity indices
+│   └── 05_robustness.do      # Scenario comparison & sensitivity
+│
+├── 📁 output/
+│   ├── tables/           # LaTeX / Excel tables
+│   └── figures/          # Concentration curves, ETR profiles
+│
+├── 📁 docs/
+│   └── working_paper.pdf # Draft working paper
+│
+└── README.md
+```
 
-1\. \*\*Consumption aggregation\*\*  
+---
 
-&#x20;  Household-level consumption is constructed from detailed product-level expenditures.
+## Reproducibility
 
+The repository is structured to ensure full reproducibility:
 
+- All code is written in **Stata** (`.do` files) with inline comments
+- Random seeds are fixed where applicable
+- Raw data paths are parameterized via a `globals.do` master file
+- Results are automatically exported to `/output/`
 
-2\. \*\*Tax mapping\*\*  
+> ⚠️ Raw EHCVM data files are **not versioned** due to confidentiality restrictions. Contact the author or the World Bank microdata portal to obtain access.
 
-&#x20;  Each product (`codpr`) is assigned a fiscal treatment based on the VAT system:
+---
 
-&#x20;  - Exempt  
+## References
 
-&#x20;  - Reduced rate  
+- Bachas, P., Gadenne, L., & Jensen, A. (2024). *Informality, Consumption Taxes, and Redistribution*. American Economic Review.
+- Lustig, N. (Ed.) (2018). *Commitment to Equity Handbook*. Brookings Institution Press.
+- World Bank (2024). *Urban Informality in Sub-Saharan Africa*. Policy Research Working Paper No. 10703.
+- UNECA (2019). *Economic Report on Africa: Fiscal Policy for Financing Sustainable Development*.
 
-&#x20;  - Standard rate  
+---
 
-&#x20;  - Other categories where applicable  
+## Author
 
+**Armand Djaha, M.Sc.**  
+Applied Economist · ANStat — Cellule d'Analyses Économiques (CAE)  
+Côte d'Ivoire / Canada
 
+[![Email](https://img.shields.io/badge/Email-armandjaha@gmail.com-blue?style=flat-square&logo=gmail)](mailto:armandjaha@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Armand_Djaha-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/armand-djaha-m-sc-108119186)
 
-3\. \*\*Tax imputation\*\*  
+---
 
-&#x20;  VAT is simulated at the product level and aggregated at the household level.
+## Status
 
+![Status](https://img.shields.io/badge/Status-Working%20Paper-orange?style=flat-square)
+![Date](https://img.shields.io/badge/Date-April%202026-lightgrey?style=flat-square)
+![Institution](https://img.shields.io/badge/Institution-ANStat%20CAE-green?style=flat-square)
 
-
-4\. \*\*Welfare comparison\*\*  
-
-&#x20;  Pre-tax consumption is compared to simulated consumable income.
-
-
-
-5\. \*\*Distributional analysis\*\*  
-
-&#x20;  Results are analyzed across deciles of consumption using:
-
-&#x20;  - Effective tax rates  
-
-&#x20;  - Concentration curves  
-
-&#x20;  - Progressivity indices  
-
-
-
-\---
-
-
-
-\##  Data
-
-
-
-\- Source: \*\*EHCVM 2021 (Côte d’Ivoire)\*\*  
-
-\- Unit of observation: \*\*Household × product\*\*  
-
-\- Unit of analysis: \*\*Household\*\*
-
-
-
-\### Key variables
-
-
-
-\- `codpr` → product identifier  
-
-\- `modep` → acquisition mode  
-
-\- `depan` → annual expenditure  
-
-\- `hhweight` → sampling weight  
-
-
-
-\---
-
-
-
-\##  Informality and Effective Taxation
-
-
-
-A key challenge in developing economies is that \*\*not all transactions are effectively taxed\*\*, due to informality.
-
-
-
-To address this, the analysis incorporates \*\*heterogeneous effective taxation scenarios\*\* based on the \*\*Informality Engel Curve (IEC)\*\* framework.
-
-
-
-\### Scenario 1 — Strict (α = 1)
-
-
-
-\- Full taxation of all eligible consumption  
-
-\- Represents a \*\*theoretical upper bound\*\*  
-
-
-
-\### Scenario 2 — CEI × location
-
-
-
-\- α varies by:
-
-&#x20; - COICOP category  
-
-&#x20; - Urban vs rural location  
-
-
-
-\- Captures structural differences in market access  
-
-
-
-\### Scenario 3 — CEI × decile
-
-
-
-\- α increases with consumption level  
-
-\- Reflects that \*\*richer households are more likely to purchase in formal markets\*\*
-
-
-
-These scenarios allow testing how \*\*informality affects distributional outcomes\*\*, not just aggregate tax levels.
-
-
-
-\---
-
-
-
-\##  Outputs
-
-
-
-The project produces a comprehensive set of distributional indicators:
-
-
-
-\- Effective VAT rates by decile  
-
-\- Tax burden (absolute and relative)  
-
-\- Concentration curves  
-
-\- Gini coefficients (pre- and post-tax)  
-
-\- Kakwani index of progressivity  
-
-\- Sensitivity and robustness analysis  
-
-
-
-\---
-
-
-
-\##  Key Assumptions
-
-
-
-The analysis relies on several standard assumptions:
-
-
-
-\### 1. Full pass-through
-
-VAT is assumed to be fully reflected in consumer prices.
-
-
-
-\### 2. Consumption as welfare proxy
-
-Consumption is used as a proxy for permanent income.
-
-
-
-\### 3. Partial equilibrium
-
-No indirect effects via production chains or general equilibrium adjustments.
-
-
-
-Results should therefore be interpreted as a \*\*first-order approximation of tax incidence\*\*.
-
-
-
-\---
-
-
-
-\## Limitations
-
-
-
-\- No direct taxes or social transfers  
-
-\- No behavioral responses (price or demand adjustments)  
-
-\- No input-output transmission effects  
-
-\- Informality modeled through scenarios rather than observed directly  
-
-
-
-These limitations are explicitly acknowledged as part of a \*\*transparent and progressive research strategy\*\*.
-
-
-
-\---
-
-
-
-\## Research Design
-
-
-
-This project is conceived as a \*\*cumulative research program\*\*:
-
-
-
-1\. Construct taxable consumption and VAT incidence  
-
-2\. Integrate administrative fiscal data  
-
-3\. Improve modeling of informality  
-
-4\. Extend toward a full CEQ analysis  
-
-
-
-\---
-
-
-
-\## References
-
-
-
-\- Bachas, P., Gadenne, L., \& Jensen, A. (2024). \*Informality, Consumption Taxes, and Redistribution\*  
-
-\- Lustig, N. (2018). \*Commitment to Equity Handbook\*  
-
-\- World Bank (2024). \*Urban Informality in Sub-Saharan Africa (WPS 10703)\*  
-
-\- UNECA (2019). \*Economic Report on Africa\*  
-
-
-
-\---
-
-
-
-\## Reproducibility
-
-
-
-The repository is structured to ensure reproducibility:
-
-
-
-
-
-
-
-\---
-
-
-
-\##  Author
-
-
-
-\*\*Armand Djaha, M.Sc.\*\*  
-
-Applied Economist | Research 
-
-
-
-ANStat — Cellule d’Analyses Économiques (CAE)  
-
-
-
-Côte d’Ivoire / Canada  
-
-armandjaha@gmail.com  
-
-https://www.linkedin.com/in/armand-djaha-m-sc-108119186  
-
-
-
-\---
-
-
-
-\## Status
-
-
-
-> Working paper — April 2026  
-
-> Final project (ANStat)
-
-
-
-\---
-
-
-
-\## Conclusion
-
-
-
-This project provides a \*\*transparent, reproducible, and policy-relevant framework\*\* for analyzing VAT incidence in Côte d’Ivoire.
-
-
-
-It offers a robust starting point for \*\*evidence-based fiscal policy analysis\*\* and can be extended to other countries using harmonized EHCVM data.
-
+> 📌 *Working paper — April 2026 · Final project (ANStat)*
