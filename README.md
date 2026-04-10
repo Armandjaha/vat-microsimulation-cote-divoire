@@ -178,7 +178,7 @@ The repository is structured to ensure full reproducibility:
 - Raw data paths are parameterized via a `globals.do` master file
 - Results are automatically exported to `/output/`
 
-> ⚠️ Raw EHCVM data files are **not versioned** due to confidentiality restrictions. Contact the author or the World Bank microdata portal to obtain access.
+
 
 ---
 
