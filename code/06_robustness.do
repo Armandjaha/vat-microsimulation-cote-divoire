@@ -17,3 +17,8 @@ preserve
 collapse (mean) eff_vat_w [pw=hhweight], by(dec_w)
 export excel using "$TABLES/06_robustness_winsorized_consumption.xlsx", firstrow(variables) replace
 restore
+
+
+// –	Scénario strict : tous les achats taxables sont effectivement taxés ;
+//	Scénario prudent : seulement une partie des achats supporte la taxe ;
+//	Scénario intermédiaire: coefficients d'ajustement par groupes de biens

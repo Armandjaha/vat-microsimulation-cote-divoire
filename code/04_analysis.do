@@ -29,7 +29,7 @@
 * - consumable_income
 ********************************************************************************
 
-use "$OUTPUT/final_data/fiscal_data.dta", clear
+use "$OUTPUT/final_data/03/fiscal_data.dta", clear
 
 ********************************************************************************
 * STEP 1 — Basic validation
@@ -45,28 +45,25 @@ assert vat_w >= 0
 * STEP 2 — Ranking households by welfare
 ********************************************************************************
 * Preferred ranking variable: winsorized household consumption
-* This improves robustness while preserving the welfare interpretation.
+* This improves slightly robustness while preserving the welfare interpretation.
 
-xtile decile  = conso_w [pw=hhweight], n(10)
+xtile decile = conso_w [pw=hhweight], n(10)
 xtile quintile = conso_w [pw=hhweight], n(5)
 
 label define dec_lbl 1 "D1 poorest" 2 "D2" 3 "D3" 4 "D4" 5 "D5" ///
                      6 "D6" 7 "D7" 8 "D8" 9 "D9" 10 "D10 richest"
 label values decile dec_lbl
 
+tabstat eff_vat_w, by(decile) stat(mean sd)
 ********************************************************************************
 * STEP 3 — Main distributive indicators
 ********************************************************************************
-
-* Effective VAT rate (robust version used for main analysis)
-gen tax_rate = vat_w / conso_w
-
 * Share of total VAT paid by each household (will later be aggregated)
 egen total_vat_all = total(vat_w)
-gen vat_share_total = vat_w / total_vat_all
 
 * VAT-to-consumption loss in level terms
 gen tax_burden = vat_w
+
 
 ********************************************************************************
 * STEP 4 — Summary statistics by decile
@@ -74,15 +71,15 @@ gen tax_burden = vat_w
 
 preserve
 collapse ///
-    (mean) conso_w vat_w tax_rate ///
+    (mean) conso_w vat_w  ///
     (sum) vat_sum = vat_w ///
     [pw=hhweight], by(decile)
 
 egen total_vat = total(vat_sum)
 gen vat_share_decile = vat_sum / total_vat
 
-export excel using "$TABLES/04_main_results_by_decile.xlsx", firstrow(variables) replace
-save "$OUTPUT/final_data/results_by_decile.dta", replace
+export excel using "$TABLES/04/04_main_results_by_decile.xlsx", firstrow(variables) replace
+save "$OUTPUT/final_data/04/results_by_decile.dta", replace
 restore
 
 ********************************************************************************
@@ -91,15 +88,15 @@ restore
 
 preserve
 collapse ///
-    (mean) conso_w vat_w tax_rate ///
+    (mean) conso_w vat_w  ///
     (sum) vat_sum = vat_w ///
     [pw=hhweight], by(quintile)
 
 egen total_vat = total(vat_sum)
 gen vat_share_quintile = vat_sum / total_vat
 
-export excel using "$TABLES/04_main_results_by_quintile.xlsx", firstrow(variables) replace
-save "$OUTPUT/final_data/results_by_quintile.dta", replace
+export excel using "$TABLES/04/04_main_results_by_quintile.xlsx", firstrow(variables) replace
+save "$OUTPUT/final_data/04/results_by_quintile.dta", replace
 restore
 
 ********************************************************************************
@@ -108,10 +105,14 @@ restore
 
 preserve
 collapse ///
-    (mean) conso_w vat_w tax_rate ///
+    (mean) conso_w vat_w ///
+	(sum)  vat_sum = vat_w ///
     [pw=hhweight], by(milieu)
 
-export excel using "$TABLES/04_results_by_milieu.xlsx", firstrow(variables) replace
+egen total_vat = total(vat_sum)
+gen vat_share_milieu = vat_sum / total_vat	
+	
+export excel using "$TABLES/04/04_results_by_milieu.xlsx", firstrow(variables) replace
 restore
 
 ********************************************************************************
@@ -120,47 +121,20 @@ restore
 
 preserve
 collapse ///
-    (mean) conso_w vat_w tax_rate ///
+    (mean) conso_w vat_w ///
+	(sum)  vat_sum = vat_w ///
     [pw=hhweight], by(region)
 
-gsort -tax_rate
-export excel using "$TABLES/04_results_by_region.xlsx", firstrow(variables) replace
-restore
-
-********************************************************************************
-* STEP 8 — Main graph: effective VAT rate by decile
-********************************************************************************
-
-preserve
-collapse (mean) tax_rate [pw=hhweight], by(decile)
-
-twoway line tax_rate decile, ///
-    title("Effective VAT rate by decile") ///
-    ytitle("VAT as share of consumption") ///
-    xtitle("Consumption decile") ///
-    ylabel(0(.02).20, angle(horizontal))
-
-graph export "$FIGS/04_effective_vat_rate_by_decile.png", replace
-restore
-
-********************************************************************************
-* STEP 9 — Main graph: share of total VAT by decile
-********************************************************************************
-
-preserve
-collapse (sum) vat_sum = vat_w [pw=hhweight], by(decile)
 egen total_vat = total(vat_sum)
-gen vat_share_decile = vat_sum / total_vat
-
-graph bar vat_share_decile, over(decile) ///
-    title("Share of total VAT borne by each decile") ///
-    ytitle("Share of total VAT")
-
-graph export "$FIGS/04_vat_share_by_decile.png", replace
+gen vat_share_region = vat_sum / total_vat	
+	
+gsort -vat_w
+export excel using "$TABLES/04/04_results_by_region.xlsx", firstrow(variables) replace
 restore
+
 
 ********************************************************************************
 * STEP 10 — Save enriched analysis base
 ********************************************************************************
 
-save "$OUTPUT/final_data/fiscal_data_analysis_ready.dta", replace
+save "$OUTPUT/final_data/04/fiscal_data_analysis_ready.dta", replace

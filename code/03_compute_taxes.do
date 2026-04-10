@@ -10,12 +10,10 @@
 * standard microsimulation approach consistent with CEQ methodology.
 *
 * KEY STEPS:
-* 1. Ensure fiscal consistency by excluding out-of-scope items from taxation.
-* 2. Compute VAT at the product level (consumption × VAT rate).
-* 3. Aggregate consumption and VAT to the household level.
-* 4. Derive effective VAT rates (VAT / total consumption).
-* 5. Merge household characteristics for distributional analysis.
-*
+* 1. Compute VAT at the product level (consumption × VAT rate).
+* 2. Aggregate consumption and VAT to the household level.
+* 3. Derive effective VAT rates (VAT / total consumption).
+**
 * ECONOMIC INTERPRETATION:
 * - VAT is assumed to be fully shifted to consumers (static incidence).
 * - Effective VAT rate measures the share of consumption captured by VAT.
@@ -26,9 +24,9 @@
 * - Unit of observation (output): household
 *
 * IMPORTANT ASSUMPTIONS:
-* - Only market transactions are included (modep == 1 applied upstream).
+* - Only market transactions are included (modep == 1 applied).
 * - VAT rates are correctly assigned through the mapping file.
-* - Out-of-scope items (hors_champ == 1) are not taxed.
+
 *
 * OUTPUT:
 * Household-level dataset including:
@@ -37,31 +35,27 @@
 * - effective VAT rate
 * - CEQ proxy income concepts
 *
-* AUTHOR: Armand Djaha, MSc
+* AUTHOR: Armand Kouakou Djaha, MSc
 ********************************************************************************
 
 ********************************************************************************
 * 03_compute_taxes.do
 ********************************************************************************
 
-use "$OUTPUT/final_data/conso_clean.dta", clear
+use "$OUTPUT/final_data/01/conso_clean.dta", clear
+
 
 ********************************************************************************
-* STEP 1 — Ensure VAT consistency
+* STEP 1 — Compute VAT at item level
 ********************************************************************************
 
-* No VAT for out-of-scope items
-replace r_vat_final = 0 if hors_champ == 1
+gen vat_item   = depan   * r_vat_official
+label variable vat_item "VAT paid at item level (raw consumption)"
+gen vat_item_w = depan_w * r_vat_official
+label variable vat_item_w "VAT paid at item level (winsorized consumption)"
 
 ********************************************************************************
-* STEP 2 — Compute VAT at item level
-********************************************************************************
-
-gen vat_item   = depan   * r_vat_final
-gen vat_item_w = depan_w * r_vat_final
-
-********************************************************************************
-* STEP 3 — Aggregate to household level
+* STEP 2 — Aggregate to household level
 ********************************************************************************
 
 di as text ">>> Aggregating to household level"
@@ -70,21 +64,30 @@ sort hhid
 
 * Total consumption
 by hhid: egen conso   = total(depan)
+label variable conso "Total household consumption (raw)"
 by hhid: egen conso_w = total(depan_w)
-
-* VAT
+label variable conso_w "Total household consumption (winsorized)"
+* Total VAT
 by hhid: egen vat   = total(vat_item)
+label variable vat "Total VAT paid by household (raw)"
 by hhid: egen vat_w = total(vat_item_w)
-
+label variable vat_w "Total VAT paid by household (winsorized)"
 * Number of items
-by hhid: egen n_items = count(codpr)
+by hhid: egen n_items = count(produit)
+label variable n_items "Number of consumption items reported by household"
+sum n_items, detail
+histogram n_items
+graph save "$FIGS/n_items.gph" , replace
+graph export "$FIGS/n_items.png", replace
 
 ********************************************************************************
 * STEP 4 — Effective VAT rate
 ********************************************************************************
 
 gen eff_vat   = vat   / conso
+label variable eff_vat "Effective VAT rate (VAT / consumption, raw)"
 gen eff_vat_w = vat_w / conso_w
+label variable eff_vat_w "Effective VAT rate (VAT / consumption, winsorized)"
 
 ********************************************************************************
 * STEP 5 — Reduce to one observation per household
@@ -95,36 +98,37 @@ keep if hh_tag == 1
 drop hh_tag
 
 ********************************************************************************
-* STEP 6 — Merge household characteristics
-********************************************************************************
-
-di as text ">>> Merging household characteristics"
-
-merge 1:1 hhid using "$OUTPUT/final_data/hh_vars.dta"
-
-tab _merge
-keep if _merge == 3
-drop _merge
-
-********************************************************************************
-* STEP 7 — Log variables
+* STEP 6 — Log variables
 ********************************************************************************
 
 gen lconso   = log(conso)
+label variable lconso "log of household consumption (raw)"
+
 gen lconso_w = log(conso_w)
+label variable lconso_w "log of household consumption (winsorized)"
+
+histogram lconso, normal
+graph save "$FIGS/log_conso.gph" , replace
+graph export "$FIGS/log_conso.png", replace
+histogram lconso_w, normal
+graph save "$FIGS/log_conso_w.gph" , replace
+graph export "$FIGS/log_conso_w.png", replace
 
 ********************************************************************************
-* STEP 8 — CEQ proxy concepts
+* STEP 7 — CEQ proxy concepts
 ********************************************************************************
+gen market_income     = conso_w
+label variable market_income "Market income proxy (winsorized consumption)"
 
-gen market_income     = conso
-gen consumable_income = conso - vat
+gen consumable_income = conso_w - vat_w
+label variable consumable_income "Consumable income (winsorized, net of VAT)"
 
 ********************************************************************************
 * STEP 9 — Diagnostics
 ********************************************************************************
 
-sum conso vat eff_vat, detail
+sum conso_w vat_w eff_vat_w, detail
+
 
 
 ********************************************************************************
@@ -144,13 +148,22 @@ keep ///
 
 order hhid conso vat eff_vat hhweight
 
+sum conso, detail
+sum conso_w, detail
+/*
+Household-level consumption exhibits moderate right-skewness,
+with a median of approximately 1.4 million FCFA (conso) and a mean of 1.8 million FCFA.
+The upper tail remains present but controlled, with the top 1% reaching 6 million FCFA.
+Compared to item-level distributions, aggregation at the household level significantly reduces
+extreme variability, resulting in a more stable and interpretable distribution.*/
 
 ********************************************************************************
 * STEP 10 — Save final dataset
 ********************************************************************************
 
-save "$OUTPUT/final_data/fiscal_data.dta", replace
+save "$OUTPUT/final_data/03/fiscal_data.dta", replace
 
+des, full
 
 
 

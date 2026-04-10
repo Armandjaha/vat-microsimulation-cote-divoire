@@ -12,7 +12,7 @@
 * - Diagnostics for data quality
 ********************************************************************************
 
-use "$OUTPUT/final_data/fiscal_data_analysis_ready.dta", clear
+use "$OUTPUT/final_data/04/fiscal_data_analysis_ready.dta", clear
 
 ********************************************************************************
 * STEP 1 — Full distribution diagnostics
@@ -26,8 +26,6 @@ sum conso conso_w vat vat_w eff_vat eff_vat_w, detail
 * STEP 2 — Detailed decile profile (extended)
 ********************************************************************************
 
-*xtile decile = conso_w [pw=hhweight], n(10)
-
 preserve
 collapse ///
     (mean) conso_w vat_w eff_vat ///
@@ -40,7 +38,7 @@ collapse ///
 egen total_vat = total(vat_sum)
 gen vat_share = vat_sum / total_vat
 
-export excel using "$TABLES/07_decile_detailed.xlsx", firstrow(variables) replace
+export excel using "$TABLES/07/07_decile_detailed.xlsx", firstrow(variables) replace
 restore
 
 ********************************************************************************
@@ -58,17 +56,17 @@ collapse ///
 egen total_vat = total(vat_sum)
 gen vat_share = vat_sum / total_vat
 
-export excel using "$TABLES/07_quintile_detailed.xlsx", firstrow(variables) replace
+export excel using "$TABLES/07/07_quintile_detailed.xlsx", firstrow(variables) replace
 restore
 
 ********************************************************************************
 * STEP 4 — VAT decomposition by COICOP
 ********************************************************************************
 
-use "$OUTPUT/final_data/conso_clean.dta", clear
+use "$OUTPUT/final_data/01/conso_clean.dta", clear
 
 * Ensure VAT computed at item level
-gen vat_item_w = depan_w * r_vat_final
+gen vat_item_w = depan_w * r_vat_official
 
 preserve
 collapse ///
@@ -78,14 +76,14 @@ collapse ///
 
 gen vat_rate_coicop = vat_w / conso_w
 
-export excel using "$TABLES/07_vat_by_coicop.xlsx", firstrow(variables) replace
+export excel using "$TABLES/07/07_vat_by_coicop.xlsx", firstrow(variables) replace
 restore
 
 ********************************************************************************
 * STEP 5 — Regional breakdown (extended)
 ********************************************************************************
 
-use "$OUTPUT/final_data/fiscal_data_analysis_ready.dta", clear
+use "$OUTPUT/final_data/04/fiscal_data_analysis_ready.dta", clear
 
 preserve
 collapse ///
@@ -95,7 +93,7 @@ collapse ///
 
 gsort -eff_vat
 
-export excel using "$TABLES/07_region_detailed.xlsx", firstrow(variables) replace
+export excel using "$TABLES/07/07_region_detailed.xlsx", firstrow(variables) replace
 restore
 
 ********************************************************************************
@@ -108,7 +106,7 @@ collapse ///
     (p50) median_conso = conso_w ///
     [pw=hhweight], by(milieu)
 
-export excel using "$TABLES/07_milieu_detailed.xlsx", replace
+export excel using "$TABLES/07/07_milieu_detailed.xlsx", replace
 restore
 
 ********************************************************************************
@@ -126,7 +124,7 @@ gen flag_high_vat = eff_vat > 0.2
 tab flag_high_vat
 
 ********************************************************************************
-* STEP 8 — Save nothing (analysis only)
+* END
 ********************************************************************************
 
 di as result ">>> Appendix tables successfully generated"

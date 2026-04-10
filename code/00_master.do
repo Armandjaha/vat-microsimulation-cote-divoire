@@ -1,6 +1,6 @@
 ********************************************************************************
 * 00_master.do
-* Master script — orchestrates the full pipeline
+* Master script — run the full pipeline
 *
 * This script must be run from the project root directory.
 * It executes all steps in sequence:
@@ -22,7 +22,7 @@ di as text "--------------------------------------------------"
 di as text "STEP 0: Setting up environment"
 di as text "--------------------------------------------------"
 
-* folder
+* folder: configure your access path
 cd "C:\Users\a_djaha\Desktop\PHAS\vat-microsimulation-cote-divoire-main"
 do "code/00_setup.do"
 
@@ -55,7 +55,7 @@ if _rc != 0 {
 }
 
 ********************************************************************************
-* STEP 3 — Compute taxes (CEQ core)
+* STEP 3 — Compute taxes 
 ********************************************************************************
 
 di as text "--------------------------------------------------"
@@ -98,16 +98,31 @@ if _rc != 0 {
 
 
 ********************************************************************************
-* STEP 6 — Robustness
+* STEP 6.1 — Robustness
 ********************************************************************************
 
 di as text "--------------------------------------------------"
-di as text "STEP 6 : Robustness"
+di as text "STEP 6.1 : Robustness"
 di as text "--------------------------------------------------"
 
-capture noisily do "$CODE/06_robustness.do"
+capture noisily do "$CODE/06_01_sensitivity_taxation.do"
 if _rc != 0 {
-    di as error "❌ ERROR in 06_robustness.do"
+    di as error "❌ ERROR in 06_01_sensitivity_taxation.do"
+    exit 1
+}
+
+
+********************************************************************************
+* STEP 6.2 — Robustness
+********************************************************************************
+
+di as text "--------------------------------------------------"
+di as text "STEP 6.1 : Robustness"
+di as text "--------------------------------------------------"
+
+capture noisily do "$CODE/06_02_sensitivity_ranking.do"
+if _rc != 0 {
+    di as error "❌ ERROR in 06_02_sensitivity_ranking.do"
     exit 1
 }
 
@@ -131,7 +146,7 @@ if _rc != 0 {
 ********************************************************************************
 
 di as text "--------------------------------------------------"
-di as text "STEP 7 : Appendix"
+di as text "STEP 7 : figures"
 di as text "--------------------------------------------------"
 
 capture noisily do "$CODE/08_figures.do"
@@ -141,11 +156,26 @@ if _rc != 0 {
 }
 
 ********************************************************************************
+* STEP 9 — Determinants
+********************************************************************************
+
+di as text "--------------------------------------------------"
+di as text "STEP 9 : determinants"
+di as text "--------------------------------------------------"
+
+capture noisily do "$CODE/09_vat_determinants.do"
+if _rc != 0 {
+    di as error "❌ ERROR in 09_vat_determinants.do"
+    exit 1
+}
+
+
+********************************************************************************
 * END
 ********************************************************************************
 
 di as result "=================================================="
-di as result "✅ PROJECT COMPLETED SUCCESSFULLY"
+di as result " PROJECT COMPLETED SUCCESSFULLY"
 di as result "=================================================="
 
 log close
