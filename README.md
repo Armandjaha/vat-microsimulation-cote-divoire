@@ -147,28 +147,28 @@ These limitations are explicitly acknowledged as part of a **transparent and pro
 📁 vat-incidence-civ/
 │
 ├── 📁 data/
-│   ├── raw/              # EHCVM 2021 raw files (versioned)
-│   └── processed/        # Cleaned and merged datasets
+│   ├── raw/                                                       ## EHCVM 2021 raw files (versioned)
+│   └── processed/                                                 ## Cleaned and merged datasets
 │
 ├── 📁 code/
-│   ├── 00_master.do   # master script
-│   ├── 00_setup.do    # prepare environnment
-│   ├── 01_prepare_data.do # Data preparation & variable construction
-│   ├── 02_mapping_tax.do  # Build a clean and auditable VAT mapping  
-│   ├── 03_compute_taxes.do # Compute household-level VAT incidence
-│   ├── 04_analysis.do  # Produce the main CEQ-style distributive results
-│   ├── 05_progressivity.do # Measure VAT progressivity
-│   ├── 06_01_sensitivity_taxation.do     # Product-level fiscal treatment
-│   ├── 06_02_ranking.do      # Sensitivity analysis of VAT incidence to alternative assumptions
-│   ├── 07_appendix_tables.do # Produce supplementary tables
-│   ├── 08_figures.do   # Produce figures 
-│   └── 09_vat_determinants.do      # Analyze the socio-demographic determinants of household exposure to VAT
-│
+│   ├── 00_master.do                                               ## master script
+│   ├── 00_setup.do                                                ## prepare environnment
+│   ├── 01_prepare_data.do                                         ## Data preparation & variable construction
+│   ├── 02_mapping_tax.do                                          ## Build a clean and auditable VAT mapping  
+│   ├── 03_compute_taxes.do                                        ## Compute household-level VAT incidence
+│   ├── 04_analysis.do                                             ##  Produce the main CEQ-style distributive results
+│   ├── 05_progressivity.do                                        ## Measure VAT progressivity
+│   ├── 06_01_sensitivity_taxation.do                              ## Sensitivity analysis
+│   ├── 06_02_ranking.do                                           ## Sensitivity analysis 
+│   ├── 07_appendix_tables.do                                      ## Produce supplementary tables        
+│   ├── 08_figures.do                                              ## Produce figures 
+│   └── 09_vat_determinants.do                                     ## determinants of household exposure to VAT
+            │
 ├── 📁 output/
-│   ├── tables/  # Excel tables
-    ├── final_data/ # final datasets
+│   ├── tables/                                                    ## Excel tables
+    ├── final_data/                                                ## final datasets
     ├── logs/  
-│   └── figures/          # Concentration curves, ETR profiles
+│   └── figures/                                                   ## Concentration curves, ETR profiles
 │
 ├── 📁 docs/
 │   ├── EHCVM_products
