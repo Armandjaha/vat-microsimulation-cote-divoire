@@ -219,4 +219,4 @@ Côte d'Ivoire / Canada
 ![Date](https://img.shields.io/badge/Date-April%202026-lightgrey?style=flat-square)
 [![Institution](https://img.shields.io/badge/Institution-ANStat%20CAE-green?style=flat-square)](https://www.anstat.ci)
 
-> 📌 *Working paper — In progress · April 2026 · Final project (ANStat)*
+> 📌 *Working paper — In progress · Final project (ANStat)*
