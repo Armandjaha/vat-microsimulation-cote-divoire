@@ -1,4 +1,4 @@
-# 📊 Distributive Impact of Indirect Taxes in Côte d'Ivoire
+#  Distributive Impact of Indirect Taxes in Côte d'Ivoire
 ### CEQ-Based Microsimulation · EHCVM 2021 · Working Paper (In progress) — April 2026
 
 > **ANStat — Cellule d'Analyses Économiques (CAE)**  
@@ -109,12 +109,12 @@ These scenarios allow robust testing of **how informality shapes distributional 
 
 The project produces the following distributional indicators:
 
-- ✅ Effective VAT rates by decile
-- ✅ Tax burden (absolute and relative to consumption)
-- ✅ Concentration curves (pre- and post-tax)
-- ✅ Gini coefficients (pre- and post-tax)
-- ✅ **Kakwani index** of tax progressivity
-- ✅ Sensitivity and robustness analysis across scenarios
+- Effective VAT rates by decile
+- Tax burden (absolute and relative to consumption)
+- Concentration curves (pre- and post-tax)
+- Gini coefficients (pre- and post-tax)
+- **Kakwani index** of tax progressivity
+- Sensitivity and robustness analysis across scenarios
 
 ---
 
@@ -132,10 +132,10 @@ The project produces the following distributional indicators:
 
 ## Limitations
 
-- ❌ No direct taxes or social transfers modeled
-- ❌ No behavioral responses (price or demand adjustments)
-- ❌ No input-output transmission effects
-- ❌ Informality modeled through scenarios, not directly observed
+-  No direct taxes or social transfers modeled
+-  No behavioral responses (price or demand adjustments)
+-  No input-output transmission effects
+- Informality modeled through scenarios, not directly observed
 
 These limitations are explicitly acknowledged as part of a **transparent and progressive research strategy**.
 
@@ -215,9 +215,8 @@ Côte d'Ivoire / Canada
 ---
 
 ## Status
-
 ![Status](https://img.shields.io/badge/Status-Working%20Paper-orange?style=flat-square)
 ![Date](https://img.shields.io/badge/Date-April%202026-lightgrey?style=flat-square)
-![[]](https://www.anstat.ci)(https://img.shields.io/badge/Institution-ANStat%20CAE-green?style=flat-square)
+[![Institution](https://img.shields.io/badge/Institution-ANStat%20CAE-green?style=flat-square)](https://www.anstat.ci)
 
-> 📌 *Working paper % (In progress) April 2026 · Final project (ANStat)*
+> 📌 *Working paper — In progress · April 2026 · Final project (ANStat)*
